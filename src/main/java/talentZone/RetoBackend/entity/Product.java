@@ -1,8 +1,6 @@
 package talentZone.RetoBackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,5 +14,14 @@ public class Product {
     private String name;
     private int minAmount;
     private int maxAmount;
+
     private double price;
+
+
+    private int inventory;
+    private boolean enabled;
+
+
+
+
 }
