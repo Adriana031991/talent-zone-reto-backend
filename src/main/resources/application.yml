@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      mongodb+srv://adria:zWZ0LNxoLlP7nSv0@cluster0:qfwli:mongodb:net/?retryWrites=true&w=majority:
+
+
+server:
+  port: 8080
