@@ -1,5 +1,6 @@
 package talentZone.RetoBackend.service;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +17,12 @@ import talentZone.RetoBackend.repository.ProductRepository;
 import talentZone.RetoBackend.utils.AppUtils;
 import talentZone.RetoBackend.utils.PageSupport;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductService {
     @Autowired
     private ProductRepository repository;
@@ -34,7 +37,7 @@ public class ProductService {
 
     public Mono<ProductDto> saveProduct(Mono<ProductDto> productDtoMono) {
         return productDtoMono.map(AppUtils::dtoToentity)
-                .flatMap(repository::insert)
+                .flatMap(repository::save)
                 .map(AppUtils::entityToDto);
     }
 
@@ -46,17 +49,21 @@ public class ProductService {
                 .map(AppUtils::entityToDto);
     }
 
-    public Mono<Void> deleteProduct(String id) {
-        return repository.findById(id)
-                .map(p->{
-                    p.setEnabled(false);
-                    return p;
-                }).then();
+    public Mono deleteProduct(String id) {
+//        final Mono<ProductDto> dbStudent = getProduct(id);
+//        if (Objects.isNull(dbStudent)) {
+//            return Mono.empty();
+//        }
+//        return getProduct(id).switchIfEmpty(Mono.empty()).filter(Objects::nonNull).map(AppUtils::dtoToentity).flatMap(studentToBeDeleted -> repository
+//                .delete(studentToBeDeleted).then(Mono.just(studentToBeDeleted)));
+
+        return repository.deleteById(id);
     }
 
 
     public Mono<PageSupport<ProductDto>> getAllProducts(Pageable page) {
         return repository.findAll()
+                .switchIfEmpty(Flux.empty())
                 .collectList()
                 .map(list -> new PageSupport<>(
                         list

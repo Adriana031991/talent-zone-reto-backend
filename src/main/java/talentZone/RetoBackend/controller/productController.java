@@ -23,6 +23,7 @@ public class productController {
         try {
             return productService.getAllProducts(PageRequest.of(page, size));
         } catch(Exception e) {
+            //String message = e.getMessage();
             return Mono.error(e);
 
         }
